@@ -234,6 +234,7 @@
             font-size: 12px;
             max-height: 200px;
             overflow-y: auto;
+            text-align: left;
         }
         
         /* 模态框样式 */
@@ -342,20 +343,11 @@
             '劣质图'
         ];
         
-        // 改进的Base64解码函数
-        function safeBase64Decode(str) {
+        // 正确的Base64解码函数
+        function base64DecodeUnicode(str) {
             try {
-                // 处理URL安全的Base64编码
-                let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
-                
-                // 添加必要的填充
-                while (base64.length % 4) {
-                    base64 += '=';
-                }
-                
-                // 解码Base64
-                const decoded = atob(base64);
-                
+                // Base64解码
+                const decoded = atob(str);
                 // 转换为UTF-8
                 return decodeURIComponent(decoded.split('').map(function(c) {
                     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
@@ -372,24 +364,13 @@
             const encodedData = urlParams.get('d');
             
             console.log('URL参数 d:', encodedData);
+            console.log('参数长度:', encodedData ? encodedData.length : 0);
             
             if (encodedData) {
                 try {
-                    // 先尝试直接URL解码
-                    let jsonStr = null;
-                    
-                    try {
-                        jsonStr = decodeURIComponent(encodedData);
-                        console.log('直接URL解码结果:', jsonStr);
-                    } catch (e) {
-                        console.log('直接URL解码失败，尝试Base64解码');
-                    }
-                    
-                    // 如果直接解码失败，尝试Base64解码
-                    if (!jsonStr || jsonStr === encodedData) {
-                        jsonStr = safeBase64Decode(encodedData);
-                        console.log('Base64解码结果:', jsonStr);
-                    }
+                    // 使用Base64解码
+                    const jsonStr = base64DecodeUnicode(encodedData);
+                    console.log('解码后的JSON:', jsonStr);
                     
                     if (jsonStr) {
                         const itemData = JSON.parse(jsonStr);
@@ -399,10 +380,10 @@
                         if (itemData.itemId && itemData.images && Array.isArray(itemData.images)) {
                             displaySingleItem(itemData);
                         } else {
-                            throw new Error('数据结构不正确');
+                            throw new Error('数据结构不正确: 缺少itemId或images字段');
                         }
                     } else {
-                        throw new Error('数据解码失败');
+                        throw new Error('Base64解码返回空值');
                     }
                 } catch (error) {
                     console.error('解析数据失败:', error);
@@ -412,8 +393,9 @@
                             <div class="debug-info">
                                 <strong>调试信息：</strong><br>
                                 错误: ${error.message}<br>
-                                原始参数: ${encodedData ? encodedData.substring(0, 100) + '...' : 'null'}<br>
-                                参数长度: ${encodedData ? encodedData.length : 0}
+                                原始参数长度: ${encodedData ? encodedData.length : 0}<br>
+                                原始参数前100字符: ${encodedData ? encodedData.substring(0, 100) : 'null'}<br>
+                                ${encodedData && encodedData.length > 100 ? '...' : ''}
                             </div>
                         </div>
                     `;
@@ -424,7 +406,7 @@
             }
         };
         
-        // 显示单个商品
+        // 显示单个商品（保持原有逻辑）
         function displaySingleItem(itemData) {
             const { itemId, images } = itemData;
             const displaySection = document.getElementById('displaySection');
@@ -553,12 +535,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const encodedData = urlParams.get('d');
             if (encodedData) {
-                let jsonStr = null;
-                try {
-                    jsonStr = decodeURIComponent(encodedData);
-                } catch (e) {
-                    jsonStr = safeBase64Decode(encodedData);
-                }
+                const jsonStr = base64DecodeUnicode(encodedData);
                 if (jsonStr) {
                     const itemData = JSON.parse(jsonStr);
                     displayCategoryResults(itemData.images);
