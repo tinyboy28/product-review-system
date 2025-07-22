@@ -347,29 +347,19 @@
         function base64DecodeUnicode(str) {
             try {
                 console.log('开始解码Base64，长度:', str.length);
-                console.log('Base64前50字符:', str.substring(0, 50));
                 
                 // 清理Base64字符串，移除可能的空白字符
                 const cleanBase64 = str.replace(/\s/g, '');
-                console.log('清理后长度:', cleanBase64.length);
                 
                 // 添加必要的填充
                 let paddedBase64 = cleanBase64;
                 while (paddedBase64.length % 4) {
                     paddedBase64 += '=';
                 }
-                console.log('填充后长度:', paddedBase64.length);
-                
-                // 验证Base64格式
-                const base64Regex = /^[A-Za-z0-9+/]*={0,2}$/;
-                if (!base64Regex.test(paddedBase64)) {
-                    throw new Error('无效的Base64格式');
-                }
                 
                 // Base64解码
                 const decoded = atob(paddedBase64);
                 console.log('Base64解码成功，解码后长度:', decoded.length);
-                console.log('解码后前50字符:', decoded.substring(0, 50));
                 
                 // 转换为UTF-8
                 const utf8String = decodeURIComponent(
@@ -379,25 +369,9 @@
                 );
                 
                 console.log('UTF-8转换成功，最终长度:', utf8String.length);
-                console.log('最终字符串前100字符:', utf8String.substring(0, 100));
-                
                 return utf8String;
             } catch (e) {
                 console.error('Base64解码失败:', e);
-                console.error('错误详情:', e.message);
-                return null;
-            }
-        }
-        
-        // 备用解码函数（简单方式）
-        function simpleBase64Decode(str) {
-            try {
-                console.log('尝试简单Base64解码');
-                const decoded = atob(str);
-                console.log('简单解码成功');
-                return decoded;
-            } catch (e) {
-                console.error('简单Base64解码失败:', e);
                 return null;
             }
         }
@@ -412,49 +386,68 @@
             
             if (encodedData) {
                 try {
-                    let jsonStr = null;
+                    // 首先尝试Base64解码
+                    console.log('尝试Base64解码...');
+                    const jsonStr = base64DecodeUnicode(encodedData);
                     
-                    // 尝试完整的Unicode解码
-                    jsonStr = base64DecodeUnicode(encodedData);
-                    
-                    // 如果失败，尝试简单解码
                     if (!jsonStr) {
-                        console.log('尝试简单解码方式');
-                        jsonStr = simpleBase64Decode(encodedData);
+                        throw new Error('Base64解码失败');
                     }
                     
-                    // 如果还是失败，尝试直接解析（可能数据没有编码）
-                    if (!jsonStr) {
-                        console.log('尝试直接解析（可能未编码）');
-                        jsonStr = encodedData;
-                    }
+                    console.log('解码成功，JSON字符串长度:', jsonStr.length);
+                    console.log('JSON字符串前200字符:', jsonStr.substring(0, 200));
                     
-                    console.log('最终JSON字符串:', jsonStr ? jsonStr.substring(0, 200) + '...' : 'null');
+                    // 解析JSON
+                    console.log('开始解析JSON...');
+                    const itemData = JSON.parse(jsonStr);
+                    console.log('JSON解析成功，商品ID:', itemData.itemId);
+                    console.log('图片数量:', itemData.images ? itemData.images.length : 0);
                     
-                    if (jsonStr) {
-                        const itemData = JSON.parse(jsonStr);
-                        console.log('解析的商品数据:', itemData);
-                        
-                        // 验证数据结构
-                        if (itemData.itemId && itemData.images && Array.isArray(itemData.images)) {
-                            displaySingleItem(itemData);
-                        } else {
-                            throw new Error('数据结构不正确: 缺少itemId或images字段');
-                        }
+                    // 验证数据结构
+                    if (itemData.itemId && itemData.images && Array.isArray(itemData.images)) {
+                        displaySingleItem(itemData);
                     } else {
-                        throw new Error('所有解码方式都失败了');
+                        throw new Error('数据结构不正确: 缺少itemId或images字段');
                     }
+                    
                 } catch (error) {
                     console.error('解析数据失败:', error);
                     
-                    // 尝试手动测试Base64解码
+                    // 详细的错误调试
                     let debugInfo = '';
+                    
+                    // 测试Base64解码
                     try {
-                        const testDecode = atob(encodedData.substring(0, 100));
-                        debugInfo += `前100字符解码测试: 成功<br>`;
-                        debugInfo += `解码结果: ${testDecode.substring(0, 50)}...<br>`;
-                    } catch (testError) {
-                        debugInfo += `前100字符解码测试: 失败 - ${testError.message}<br>`;
+                        const testDecode = atob(encodedData);
+                        debugInfo += `Base64解码测试: 成功<br>`;
+                        debugInfo += `解码长度: ${testDecode.length}<br>`;
+                        debugInfo += `解码前100字符: ${testDecode.substring(0, 100)}<br>`;
+                        
+                        // 测试UTF-8转换
+                        try {
+                            const utf8Test = decodeURIComponent(
+                                testDecode.split('').map(function(c) {
+                                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                                }).join('')
+                            );
+                            debugInfo += `UTF-8转换测试: 成功<br>`;
+                            debugInfo += `UTF-8长度: ${utf8Test.length}<br>`;
+                            debugInfo += `UTF-8前100字符: ${utf8Test.substring(0, 100)}<br>`;
+                            
+                            // 测试JSON解析
+                            try {
+                                const jsonTest = JSON.parse(utf8Test);
+                                debugInfo += `JSON解析测试: 成功<br>`;
+                                debugInfo += `商品ID: ${jsonTest.itemId}<br>`;
+                            } catch (jsonError) {
+                                debugInfo += `JSON解析测试: 失败 - ${jsonError.message}<br>`;
+                                debugInfo += `可能的JSON格式问题<br>`;
+                            }
+                        } catch (utf8Error) {
+                            debugInfo += `UTF-8转换测试: 失败 - ${utf8Error.message}<br>`;
+                        }
+                    } catch (base64Error) {
+                        debugInfo += `Base64解码测试: 失败 - ${base64Error.message}<br>`;
                     }
                     
                     document.getElementById('displaySection').innerHTML = `
@@ -462,15 +455,16 @@
                             数据格式错误或已损坏，请重新生成链接
                             <div class="debug-info">
                                 <strong>调试信息：</strong><br>
-                                错误: ${error.message}<br>
+                                主要错误: ${error.message}<br>
                                 原始参数长度: ${encodedData ? encodedData.length : 0}<br>
                                 原始参数前100字符: ${encodedData ? encodedData.substring(0, 100) : 'null'}<br>
                                 ${encodedData && encodedData.length > 100 ? '...<br>' : ''}
+                                <br><strong>详细测试结果：</strong><br>
                                 ${debugInfo}
-                                <br><strong>可能的解决方案：</strong><br>
-                                1. 重新生成链接<br>
-                                2. 检查链接是否完整（可能被截断）<br>
-                                3. 确认生成器和显示页面版本匹配
+                                <br><strong>建议解决方案：</strong><br>
+                                1. 重新生成链接（推荐）<br>
+                                2. 检查链接是否被截断<br>
+                                3. 确认生成器版本是最新的
                             </div>
                         </div>
                     `;
@@ -610,13 +604,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const encodedData = urlParams.get('d');
             if (encodedData) {
-                let jsonStr = base64DecodeUnicode(encodedData);
-                if (!jsonStr) {
-                    jsonStr = simpleBase64Decode(encodedData);
-                }
-                if (!jsonStr) {
-                    jsonStr = encodedData;
-                }
+                const jsonStr = base64DecodeUnicode(encodedData);
                 if (jsonStr) {
                     const itemData = JSON.parse(jsonStr);
                     displayCategoryResults(itemData.images);
