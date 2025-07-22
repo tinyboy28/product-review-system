@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品审核 - 单品展示</title>
     <style>
-        /* 保留之前的所有CSS样式 */
+        /* 保留所有之前的CSS样式 */
         * {
             margin: 0;
             padding: 0;
@@ -224,6 +224,18 @@
             margin: 20px 0;
         }
         
+        .debug-info {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
         /* 模态框样式 */
         .modal {
             display: none;
@@ -330,10 +342,22 @@
             '劣质图'
         ];
         
-        // Base64解码函数
-        function base64Decode(str) {
+        // 改进的Base64解码函数
+        function safeBase64Decode(str) {
             try {
-                return decodeURIComponent(atob(str).split('').map(function(c) {
+                // 处理URL安全的Base64编码
+                let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+                
+                // 添加必要的填充
+                while (base64.length % 4) {
+                    base64 += '=';
+                }
+                
+                // 解码Base64
+                const decoded = atob(base64);
+                
+                // 转换为UTF-8
+                return decodeURIComponent(decoded.split('').map(function(c) {
                     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
                 }).join(''));
             } catch (e) {
@@ -345,22 +369,54 @@
         // 页面加载时解析URL参数
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const encodedData = urlParams.get('d'); // 使用短参数名
+            const encodedData = urlParams.get('d');
+            
+            console.log('URL参数 d:', encodedData);
             
             if (encodedData) {
                 try {
-                    // 先进行Base64解码，再JSON解析
-                    const jsonStr = base64Decode(encodedData);
+                    // 先尝试直接URL解码
+                    let jsonStr = null;
+                    
+                    try {
+                        jsonStr = decodeURIComponent(encodedData);
+                        console.log('直接URL解码结果:', jsonStr);
+                    } catch (e) {
+                        console.log('直接URL解码失败，尝试Base64解码');
+                    }
+                    
+                    // 如果直接解码失败，尝试Base64解码
+                    if (!jsonStr || jsonStr === encodedData) {
+                        jsonStr = safeBase64Decode(encodedData);
+                        console.log('Base64解码结果:', jsonStr);
+                    }
+                    
                     if (jsonStr) {
                         const itemData = JSON.parse(jsonStr);
-                        displaySingleItem(itemData);
+                        console.log('解析的商品数据:', itemData);
+                        
+                        // 验证数据结构
+                        if (itemData.itemId && itemData.images && Array.isArray(itemData.images)) {
+                            displaySingleItem(itemData);
+                        } else {
+                            throw new Error('数据结构不正确');
+                        }
                     } else {
                         throw new Error('数据解码失败');
                     }
                 } catch (error) {
                     console.error('解析数据失败:', error);
-                    document.getElementById('displaySection').innerHTML = 
-                        '<div class="error-message">数据格式错误或已损坏，请重新生成链接</div>';
+                    document.getElementById('displaySection').innerHTML = `
+                        <div class="error-message">
+                            数据格式错误或已损坏，请重新生成链接
+                            <div class="debug-info">
+                                <strong>调试信息：</strong><br>
+                                错误: ${error.message}<br>
+                                原始参数: ${encodedData ? encodedData.substring(0, 100) + '...' : 'null'}<br>
+                                参数长度: ${encodedData ? encodedData.length : 0}
+                            </div>
+                        </div>
+                    `;
                 }
             } else {
                 document.getElementById('displaySection').innerHTML = 
@@ -372,6 +428,8 @@
         function displaySingleItem(itemData) {
             const { itemId, images } = itemData;
             const displaySection = document.getElementById('displaySection');
+            
+            console.log('开始显示商品:', itemId, '图片数量:', images.length);
             
             if (!images || images.length === 0) {
                 displaySection.innerHTML = '<div class="error-message">该商品没有图片数据</div>';
@@ -393,6 +451,8 @@
                     skuImageSet.add(img.queryUrl);
                 }
             });
+            
+            console.log('主图数量:', mainImages.length, 'SKU图数量:', skuImages.length);
             
             // 默认选择第一张主图
             const defaultImage = mainImages.length > 0 ? mainImages[0] : (skuImages.length > 0 ? skuImages[0] : null);
@@ -493,7 +553,12 @@
             const urlParams = new URLSearchParams(window.location.search);
             const encodedData = urlParams.get('d');
             if (encodedData) {
-                const jsonStr = base64Decode(encodedData);
+                let jsonStr = null;
+                try {
+                    jsonStr = decodeURIComponent(encodedData);
+                } catch (e) {
+                    jsonStr = safeBase64Decode(encodedData);
+                }
                 if (jsonStr) {
                     const itemData = JSON.parse(jsonStr);
                     displayCategoryResults(itemData.images);
