@@ -260,6 +260,16 @@
             font-size: 14px;
         }
 
+        .error-message {
+            color: #dc3545;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
         @media (max-width: 768px) {
             .image-display-container {
                 flex-direction: column;
@@ -278,18 +288,33 @@
             <h2>商品ID: <a href="https://detail.tmall.com/item.htm?id=893148509188&ft=t&from=live&insideDetail=true" target="_blank" class="item-link">893148509188</a></h2>
             <div class="image-display-container">
                 <div class="main-display">
-                    <img id="mainDisplayImage" src="http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01UIxUmL1yf93FrBasx_!!377636605.jpg" alt="主展示图" 
-                         onclick="openModal('http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01UIxUmL1yf93FrBasx_!!377636605.jpg', '主展示图')"
-                         onerror="this.src='https://via.placeholder.com/500x500?text=图片加载失败'">
+                    <img id="mainDisplayImage" src="https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg" alt="主展示图" 
+                         onclick="openModal(this.src, '主展示图')"
+                         onerror="handleImageError(this)">
                 </div>
                 <div class="thumbnail-display">
                     
                 <div class="thumbnail-group">
+                    <h4>主图</h4>
+                    <div class="thumbnail-images">
+            <img src="https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg" alt="主图1" class="active"
+                             onclick="switchMainImage('https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg', 'main')"
+                             onerror="handleImageError(this)">
+                    </div>
+                </div>
+            
+                <div class="thumbnail-group">
                     <h4>SKU图</h4>
                     <div class="thumbnail-images">
-            <img src="http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01UIxUmL1yf93FrBasx_!!377636605.jpg" alt="SKU图1" class="active"
+            <img src="http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01UIxUmL1yf93FrBasx_!!377636605.jpg" alt="SKU图1" class=""
                              onclick="switchMainImage('http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01UIxUmL1yf93FrBasx_!!377636605.jpg', 'sku')"
-                             onerror="this.src='https://via.placeholder.com/80x80?text=加载失败'">
+                             onerror="handleImageError(this)"><img src="http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01tKMzRQ1yf93rGNuvS_!!377636605.jpg" alt="SKU图2" class=""
+                             onclick="switchMainImage('http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01tKMzRQ1yf93rGNuvS_!!377636605.jpg', 'sku')"
+                             onerror="handleImageError(this)"><img src="http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg" alt="SKU图3" class=""
+                             onclick="switchMainImage('http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg', 'sku')"
+                             onerror="handleImageError(this)"><img src="http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01qfagVO1yf93sArC7Y_!!377636605.jpg" alt="SKU图4" class=""
+                             onclick="switchMainImage('http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01qfagVO1yf93sArC7Y_!!377636605.jpg', 'sku')"
+                             onerror="handleImageError(this)">
                     </div>
                 </div>
             
@@ -297,8 +322,64 @@
             </div>
         </div>
 
-        <div class="categories-container">
+        <div class="categories-container" id="categoriesContainer">
             
+                    <div class="image-category">
+                        <div class="category-title">
+                            半身上身图-正面
+                            <span class="image-count">2张</span>
+                        </div>
+                        <div class="category-images">
+                <img src="https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_15_16_0.jpg" alt="半身上身图-正面" 
+                                 onclick="openModal('https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_15_16_0.jpg', '半身上身图-正面')"
+                                 onerror="handleImageError(this)"><img src="http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01XPMbVR1yf93EQPwgB_!!377636605.jpg" alt="半身上身图-正面" 
+                                 onclick="openModal('http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01XPMbVR1yf93EQPwgB_!!377636605.jpg', '半身上身图-正面')"
+                                 onerror="handleImageError(this)">
+                        </div>
+                    </div>
+                
+                    <div class="image-category">
+                        <div class="category-title">
+                            全身上身图-正面
+                            <span class="image-count">3张</span>
+                        </div>
+                        <div class="category-images">
+                <img src="http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01CNBjfd1yf93FrKFmu_!!377636605.jpg" alt="全身上身图-正面" 
+                                 onclick="openModal('http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01CNBjfd1yf93FrKFmu_!!377636605.jpg', '全身上身图-正面')"
+                                 onerror="handleImageError(this)"><img src="http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01NDc9lv1yf93GIUnQF_!!377636605.jpg" alt="全身上身图-正面" 
+                                 onclick="openModal('http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01NDc9lv1yf93GIUnQF_!!377636605.jpg', '全身上身图-正面')"
+                                 onerror="handleImageError(this)"><img src="https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_10_0.jpg" alt="全身上身图-正面" 
+                                 onclick="openModal('https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_10_0.jpg', '全身上身图-正面')"
+                                 onerror="handleImageError(this)">
+                        </div>
+                    </div>
+                
+                    <div class="image-category">
+                        <div class="category-title">
+                            全身上身图-背面
+                            <span class="image-count">1张</span>
+                        </div>
+                        <div class="category-images">
+                <img src="https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_17_0.jpg" alt="全身上身图-背面" 
+                                 onclick="openModal('https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_17_0.jpg', '全身上身图-背面')"
+                                 onerror="handleImageError(this)">
+                        </div>
+                    </div>
+                
+                    <div class="image-category">
+                        <div class="category-title">
+                            细节图
+                            <span class="image-count">2张</span>
+                        </div>
+                        <div class="category-images">
+                <img src="http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01MlJ4iq1yf93BrAkKg_!!377636605.jpg" alt="细节图" 
+                                 onclick="openModal('http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01MlJ4iq1yf93BrAkKg_!!377636605.jpg', '细节图')"
+                                 onerror="handleImageError(this)"><img src="http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01rSLNeB1yf93FLBMUG_!!377636605.jpg" alt="细节图" 
+                                 onclick="openModal('http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01rSLNeB1yf93FLBMUG_!!377636605.jpg', '细节图')"
+                                 onerror="handleImageError(this)">
+                        </div>
+                    </div>
+                
                     <div class="image-category">
                         <div class="category-title">
                             材质图
@@ -307,7 +388,7 @@
                         <div class="category-images">
                 <img src="http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01psZjOj1yf95Gbq5kv_!!377636605.png" alt="材质图" 
                                  onclick="openModal('http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01psZjOj1yf95Gbq5kv_!!377636605.png', '材质图')"
-                                 onerror="this.src='https://via.placeholder.com/200x200?text=图片加载失败'">
+                                 onerror="handleImageError(this)">
                         </div>
                     </div>
                 
@@ -321,9 +402,21 @@
     </div>
 
     <script>
-        let currentSelectedImage = {"url": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01UIxUmL1yf93FrBasx_!!377636605.jpg", "pos": "sku"};
+        // 全局变量
+        let currentSelectedImage = {"url": "https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg", "pos": "main"};
+        let allItemData = [{"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01UIxUmL1yf93FrBasx_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01psZjOj1yf95Gbq5kv_!!377636605.png", "imageType": "\u6750\u8d28\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01UIxUmL1yf93FrBasx_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01MlJ4iq1yf93BrAkKg_!!377636605.jpg", "imageType": "\u7ec6\u8282\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01UIxUmL1yf93FrBasx_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01rSLNeB1yf93FLBMUG_!!377636605.jpg", "imageType": "\u7ec6\u8282\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg", "descUrl": "https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_17_0.jpg", "imageType": "\u5168\u8eab\u4e0a\u8eab\u56fe-\u80cc\u9762", "pos": "main"}, {"itemId": "893148509188", "queryUrl": "https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg", "descUrl": "https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_15_16_0.jpg", "imageType": "\u534a\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "pos": "main"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01tKMzRQ1yf93rGNuvS_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01psZjOj1yf95Gbq5kv_!!377636605.png", "imageType": "\u6750\u8d28\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01CNBjfd1yf93FrKFmu_!!377636605.jpg", "imageType": "\u5168\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg", "descUrl": "https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_10_0.jpg", "imageType": "\u5168\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "pos": "main"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01MlJ4iq1yf93BrAkKg_!!377636605.jpg", "imageType": "\u7ec6\u8282\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg", "descUrl": "https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_15_16_0.jpg", "imageType": "\u534a\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN011jdpi51yf93FMu2lY_!!377636605.jpg", "imageType": "\u5168\u8eab\u4e0a\u8eab\u56fe-\u80cc\u9762", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01qfagVO1yf93sArC7Y_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01rSLNeB1yf93FLBMUG_!!377636605.jpg", "imageType": "\u7ec6\u8282\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01XPMbVR1yf93EQPwgB_!!377636605.jpg", "imageType": "\u534a\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg", "descUrl": "https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_17_0.jpg", "imageType": "\u5168\u8eab\u4e0a\u8eab\u56fe-\u80cc\u9762", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01rSLNeB1yf93FLBMUG_!!377636605.jpg", "imageType": "\u7ec6\u8282\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01XPMbVR1yf93EQPwgB_!!377636605.jpg", "imageType": "\u534a\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "pos": "main"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg", "descUrl": "https://mingshi-gzz-bucket.cn-zhangjiakou.oss.aliyuncs.com/seg_image_oss/893148509188_10_0.jpg", "imageType": "\u5168\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01NDc9lv1yf93GIUnQF_!!377636605.jpg", "imageType": "\u5168\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "pos": "main"}, {"itemId": "893148509188", "queryUrl": "https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01CNBjfd1yf93FrKFmu_!!377636605.jpg", "imageType": "\u5168\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "pos": "main"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01tKMzRQ1yf93rGNuvS_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01rSLNeB1yf93FLBMUG_!!377636605.jpg", "imageType": "\u7ec6\u8282\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01tKMzRQ1yf93rGNuvS_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01MlJ4iq1yf93BrAkKg_!!377636605.jpg", "imageType": "\u7ec6\u8282\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01psZjOj1yf95Gbq5kv_!!377636605.png", "imageType": "\u6750\u8d28\u56fe", "pos": "main"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01qfagVO1yf93sArC7Y_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01MlJ4iq1yf93BrAkKg_!!377636605.jpg", "imageType": "\u7ec6\u8282\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01psZjOj1yf95Gbq5kv_!!377636605.png", "imageType": "\u6750\u8d28\u56fe", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01rSLNeB1yf93FLBMUG_!!377636605.jpg", "imageType": "\u7ec6\u8282\u56fe", "pos": "main"}, {"itemId": "893148509188", "queryUrl": "https://img.alicdn.com/imgextra/i4/377636605/O1CN01zP3O521yf93FrJaHp_!!4611686018427381501-0-item_pic.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01MlJ4iq1yf93BrAkKg_!!377636605.jpg", "imageType": "\u7ec6\u8282\u56fe", "pos": "main"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01ht5IYj1yf937WcHIR_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01NDc9lv1yf93GIUnQF_!!377636605.jpg", "imageType": "\u5168\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "pos": "sku"}, {"itemId": "893148509188", "queryUrl": "http://webhost.tbgw.taobao.com/v1/35f996c4452f8/O1CN01qfagVO1yf93sArC7Y_!!377636605.jpg", "descUrl": "http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01psZjOj1yf95Gbq5kv_!!377636605.png", "imageType": "\u6750\u8d28\u56fe", "pos": "sku"}];
 
+        // 图片错误处理
+        function handleImageError(img) {
+            console.log('图片加载失败:', img.src);
+            img.src = 'https://via.placeholder.com/200x200?text=图片加载失败';
+            img.style.border = '2px solid #dc3545';
+        }
+
+        // 切换主图
         function switchMainImage(imageUrl, pos) {
+            console.log('切换图片:', imageUrl, pos);
+
             currentSelectedImage = {
                 url: imageUrl,
                 pos: pos
@@ -333,33 +426,182 @@
             mainDisplayImage.src = imageUrl;
             mainDisplayImage.onclick = () => openModal(imageUrl, '主展示图');
 
+            // 更新缩略图激活状态
             document.querySelectorAll('.thumbnail-images img').forEach(img => {
                 img.classList.remove('active');
             });
-            event.target.classList.add('active');
 
+            // 找到对应的缩略图并设置为激活状态
+            document.querySelectorAll('.thumbnail-images img').forEach(img => {
+                if (img.src === imageUrl) {
+                    img.classList.add('active');
+                }
+            });
+
+            // 重新显示分类结果
             displayCategoryResults();
         }
 
+        // 显示分类结果
         function displayCategoryResults() {
-            const existingCategories = document.querySelector('.categories-container');
-            if (existingCategories) {
-                existingCategories.innerHTML = `
+            const container = document.getElementById('categoriesContainer');
+            if (!container || !currentSelectedImage) return;
+
+            // 获取当前选中图片对应的数据
+            const relatedData = allItemData.filter(data => 
+                data.queryUrl === currentSelectedImage.url && 
+                data.pos === currentSelectedImage.pos
+            );
+
+            console.log('相关数据:', relatedData);
+
+            if (relatedData.length === 0) {
+                container.innerHTML = '<div class="error-message">未找到相关图片数据</div>';
+                return;
+            }
+
+            // 重新生成分类HTML
+            container.innerHTML = generateCategoriesHTML(relatedData);
+        }
+
+        // 生成分类HTML
+        function generateCategoriesHTML(relatedData) {
+            const imageTypes = ["\u975e\u4e0a\u8eab\u56fe-\u6b63\u9762", "\u975e\u4e0a\u8eab\u56fe-\u80cc\u9762", "\u534a\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "\u534a\u8eab\u4e0a\u8eab\u56fe-\u80cc\u9762", "\u5168\u8eab\u4e0a\u8eab\u56fe-\u6b63\u9762", "\u5168\u8eab\u4e0a\u8eab\u56fe-\u80cc\u9762", "\u7ec6\u8282\u56fe", "\u6750\u8d28\u56fe", "\u4ea7\u54c1\u56fe", "\u5305\u88c5\u56fe", "\u4e0a\u5986\u56fe", "\u52a3\u8d28\u56fe"];
+            const imagesByType = {};
+            const uselessImages = [];
+            const poorQualityImages = [];
+
+            // 初始化类型
+            imageTypes.forEach(type => {
+                imagesByType[type] = [];
+            });
+
+            // 分类处理
+            relatedData.forEach(data => {
+                const types = data.imageType.split(/[；;、]/).map(t => t.trim()).filter(t => t);
+                let hasValidType = false;
+
+                const hasPoorQuality = types.includes('劣质图');
+
+                if (hasPoorQuality) {
+                    const hasDetailOrMaterial = types.some(t => ['细节图', '材质图'].includes(t));
+                    const hasClothingTypes = types.some(t => 
+                        t.includes('平铺图') || t.includes('悬挂图') || t.includes('上身图')
+                    );
+
+                    if (types.length === 1 && types[0] === '劣质图') {
+                        poorQualityImages.push({url: data.descUrl, type: data.imageType});
+                        hasValidType = true;
+                    } else if (hasDetailOrMaterial && !hasClothingTypes) {
+                        types.forEach(type => {
+                            if (['细节图', '材质图'].includes(type)) {
+                                if (!imagesByType[type].includes(data.descUrl)) {
+                                    imagesByType[type].push(data.descUrl);
+                                }
+                                hasValidType = true;
+                            }
+                        });
+                    } else {
+                        poorQualityImages.push({url: data.descUrl, type: data.imageType});
+                        hasValidType = true;
+                    }
+                } else {
+                    types.forEach(type => {
+                        if (imageTypes.includes(type)) {
+                            if (!imagesByType[type].includes(data.descUrl)) {
+                                imagesByType[type].push(data.descUrl);
+                            }
+                            hasValidType = true;
+                        }
+                    });
+
+                    if (!hasValidType || types.some(t => ['无', '非同款'].includes(t))) {
+                        uselessImages.push({url: data.descUrl, type: data.imageType});
+                    }
+                }
+            });
+
+            let html = '';
+
+            // 生成各类型图片
+            imageTypes.forEach(type => {
+                if (type !== '劣质图' && imagesByType[type].length > 0) {
+                    html += `
+                        <div class="image-category">
+                            <div class="category-title">
+                                ${type}
+                                <span class="image-count">${imagesByType[type].length}张</span>
+                            </div>
+                            <div class="category-images">
+                    `;
+                    imagesByType[type].forEach(url => {
+                        html += `<img src="${url}" alt="${type}" 
+                                     onclick="openModal('${url}', '${type}')"
+                                     onerror="handleImageError(this)">`;
+                    });
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            // 劣质图
+            if (poorQualityImages.length > 0) {
+                html += `
                     <div class="image-category">
-                        <div class="category-title">
-                            材质图
-                            <span class="image-count">1张</span>
+                        <div class="category-title poor-quality">
+                            劣质图
+                            <span class="image-count">${poorQualityImages.length}张</span>
                         </div>
                         <div class="category-images">
-                <img src="http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01psZjOj1yf95Gbq5kv_!!377636605.png" alt="材质图" 
-                                 onclick="openModal('http://webhost.tbgw.taobao.com/v1/b2b3013031fb7/O1CN01psZjOj1yf95Gbq5kv_!!377636605.png', '材质图')"
-                                 onerror="this.src='https://via.placeholder.com/200x200?text=图片加载失败'">
+                `;
+                poorQualityImages.forEach(item => {
+                    html += `
+                        <div class="image-with-label">
+                            <img src="${item.url}" alt="劣质图" 
+                                 onclick="openModal('${item.url}', '劣质图: ${item.type}')"
+                                 onerror="handleImageError(this)">
+                            <div class="image-label">${item.type}</div>
+                        </div>
+                    `;
+                });
+                html += `
                         </div>
                     </div>
                 `;
             }
+
+            // 无用图片
+            if (uselessImages.length > 0) {
+                html += `
+                    <div class="image-category">
+                        <div class="category-title useless">
+                            无用图片
+                            <span class="image-count">${uselessImages.length}张</span>
+                        </div>
+                        <div class="category-images">
+                `;
+                uselessImages.forEach(item => {
+                    html += `
+                        <div class="image-with-label">
+                            <img src="${item.url}" alt="无用图片" 
+                                 onclick="openModal('${item.url}', '无用图片: ${item.type}')"
+                                 onerror="handleImageError(this)">
+                            <div class="image-label">${item.type}</div>
+                        </div>
+                    `;
+                });
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            return html;
         }
 
+        // 打开模态框
         function openModal(imageSrc, imageType) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
@@ -370,15 +612,27 @@
             modalInfo.textContent = `类型：${imageType}`;
         }
 
+        // 关闭模态框
         function closeModal() {
             const modal = document.getElementById('imageModal');
             modal.style.display = 'none';
         }
 
+        // ESC键关闭模态框
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeModal();
             }
+        });
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成');
+            console.log('当前选中图片:', currentSelectedImage);
+            console.log('所有数据:', allItemData);
+
+            // 初始化显示分类结果
+            displayCategoryResults();
         });
     </script>
 </body>
